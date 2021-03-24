@@ -1,4 +1,7 @@
 from flask import Flask, jsonify
+from .trained_ai import LoadedModel
+
+real = LoadedModel.close_test.tolist()
 
 
 def create_app():
@@ -6,6 +9,6 @@ def create_app():
     
     @app.route('/')
     def home():
-        return jsonify({'message': 'The API is running'})
+        return jsonify(real)
 
     return app
