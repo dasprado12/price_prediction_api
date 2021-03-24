@@ -1,8 +1,5 @@
-from tensorflow import keras
-import tensorflow as tf
-from tensorflow.keras.models import Sequential, model_from_json
+from tensorflow.keras.models import model_from_json
 from keras.preprocessing.sequence import TimeseriesGenerator
-from tensorflow.keras.preprocessing import sequence, text
 import pandas as pd
 
 # gpus = tf.config.experimental.list_physical_devices('GPU')
