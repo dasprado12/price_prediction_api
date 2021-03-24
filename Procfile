@@ -1,0 +1,1 @@
+app: uwsgi --ini uesgi.ini
