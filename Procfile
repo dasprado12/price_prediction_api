@@ -1,1 +1,1 @@
-web: price_prediction
+web: uwsgi app:app
