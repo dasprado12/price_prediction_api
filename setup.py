@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 setup(
     name='price_prediction_api',
     description="Exposes prection data",

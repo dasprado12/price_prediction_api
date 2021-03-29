@@ -12,16 +12,16 @@ class LoadedModel:
     look_back = 15
     epochs_num = 25
 
-    json_file = open("./app/Models/{}/json/regressor-{}-{}.json".format(data_name, data_name, epochs_num), 'r')
+    json_file = open("./price_prediction/Models/{}/json/regressor-{}-{}.json".format(data_name, data_name, epochs_num), 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     model = model_from_json(loaded_model_json)
     # load weights into new model
-    model.load_weights("./app/Models/{}/h5/regressor-{}-{}.h5".format(data_name, data_name, epochs_num))
+    model.load_weights("./price_prediction/Models/{}/h5/regressor-{}-{}.h5".format(data_name, data_name, epochs_num))
 
     # -----------------------------------------------Data-------------------------------------------------------------
 
-    df = pd.read_csv('./app/Data/{}.csv'.format(data_name))
+    df = pd.read_csv('./price_prediction/Data/{}.csv'.format(data_name))
 
     close_data = df['Close'].values
     close_data = close_data.reshape((-1, 1))
