@@ -1,6 +1,7 @@
 from tensorflow.keras.models import model_from_json
 from keras.preprocessing.sequence import TimeseriesGenerator
 import pandas as pd
+import numpy as np
 import json
 
 # gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -25,39 +26,101 @@ class LoadedModel:
     df = pd.read_csv('./price_prediction/Data/{}.csv'.format(data_name))
 
     close_data = df['Close'].values
+    close_data = close_data[::-1]
+    close_data = close_data[:1000]
     close_data = close_data.reshape((-1, 1))
 
-    split_percent = 0.80
-    split = int(split_percent * len(close_data))
+    prototype_date = df['Date'].values
+    prototype_date = prototype_date[::-1]
+    prototype_date = prototype_date[:1000]
 
-    close_train = close_data[:split]
-    close_test = close_data[split:]
+    # print("prototype_date")
+    # print(prototype_date)
+    # print(type(prototype_date))
+    # print(len(prototype_date))
 
-    date_train = df['Date'][:split]
-    date_test = df['Date'][split:]
+
+    close_test = close_data
+    date_test = prototype_date
 
     # train_generator = TimeseriesGenerator(close_train, close_train, length=look_back, batch_size=20)
     # valid_data_generator = TimeseriesGenerator(close_train, close_train, length=look_back, batch_size=1)
     test_generator = TimeseriesGenerator(close_test, close_test, length=look_back, batch_size=1)
 
+    # price predictions
     test = model.predict(test_generator)
 
     # close_train = close_train.reshape((-1))
     close_test = close_test.reshape((-1))
     test = test.reshape((-1))
     
-    print(type(close_test))
-    print(close_test)
+    prediction = model.predict(test_generator)
 
-    
+    close_test = close_test.reshape((-1))
+    prediction = prediction.reshape((-1))
+    # --------------------------------FORECASTING--------------------------------
+    num_prediction = 30
+
+    def predict(num_prediction, model, close_data, look_back):
+        prediction_list = close_data[-look_back:]
+
+        for _ in range(num_prediction):
+            x = prediction_list[-look_back:]
+            x = x.reshape((1, look_back, 1))
+            out = model.predict(x)[0][0]
+            prediction_list = np.append(prediction_list, out)
+        prediction_list = prediction_list[look_back - 1:]
+
+        return prediction_list
+
+    def predict_dates(num_prediction, df):
+        last_date = df['Date'].values[-1]
+        prediction_dates = pd.date_range(last_date, periods=num_prediction + 1).tolist()
+        return prediction_dates
+
+    forecast = predict(num_prediction, model, close_data, look_back)
+    forecast_dates = predict_dates(num_prediction, df)
+    close_data = close_data.reshape((-1))
+
+
+
+    # testes -----------------------------
+
+    print("close_test")
+    print(close_test[:10])
+    print(type(close_test))
+    print(len(close_test))
+
+    print("prediction")
+    print(prediction[:10])
+    print(type(prediction))
+    print(len(prediction))
+
+    print("forecast")
+    print(forecast[:10])
+    print(type(forecast))
+    print(len(forecast))
+
+    print("date_test")
+    print(date_test[:10])
+    print(type(date_test))
+    print(len(date_test))
+
+    print("forecast_dates")
+    print(forecast_dates[:10])
+    print(type(forecast_dates))
+    print(len(forecast_dates))
+
+    # ------------------------------------
 
     return_object={
         "name": "PETR4",
         "values":{
             "real": json.dumps(close_test.tolist()),
             "test": json.dumps(test.tolist()),
-            "prediction": [],
-            "date": []
+            "prediction": json.dumps(prediction.tolist()),
+            "date": json.dumps(date_test.tolist()),
+            # "forecast_date": json.dumps(forecast_dates.tolist())
         }
     }
 
