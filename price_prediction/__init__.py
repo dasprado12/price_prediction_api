@@ -1,9 +1,5 @@
 from flask import Flask, jsonify
 from .trained_ai import LoadedModel
-from flask_cors import CORS
-
-app = Flask(name)
-CORS(app)
 
 real = LoadedModel.return_object
 
