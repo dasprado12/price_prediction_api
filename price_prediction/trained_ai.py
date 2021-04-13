@@ -3,6 +3,7 @@ from keras.preprocessing.sequence import TimeseriesGenerator
 import pandas as pd
 import numpy as np
 import json
+import datetime
 
 # gpus = tf.config.experimental.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -41,7 +42,7 @@ class LoadedModel:
 
 
     close_test = close_data
-    date_test = prototype_date
+    date_test = prototype_date[::-1]
 
     # train_generator = TimeseriesGenerator(close_train, close_train, length=look_back, batch_size=20)
     # valid_data_generator = TimeseriesGenerator(close_train, close_train, length=look_back, batch_size=1)
@@ -51,8 +52,8 @@ class LoadedModel:
     test = model.predict(test_generator)
 
     # close_train = close_train.reshape((-1))
-    close_test = close_test.reshape((-1))
-    test = test.reshape((-1))
+    # close_test = close_test.reshape((-1))
+    # test = test.reshape((-1))
     
     prediction = model.predict(test_generator)
 
@@ -82,34 +83,79 @@ class LoadedModel:
     forecast_dates = predict_dates(num_prediction, df)
     close_data = close_data.reshape((-1))
 
+    foracast_dates_aux = []
+    for f_date in forecast_dates:
+        foracast_dates_aux.append(f_date.strftime('%Y-%m-%d'))
 
+    forecast_dates = foracast_dates_aux
+    del forecast_dates[0]
 
-    # testes -----------------------------
+    counter = 0
+    # array correction
+    # make 'close_test' and 'prediciton' with the same length
+    aux = []
+    for i in range(look_back):
+        aux.append(None)
+        counter = counter +1
 
-    print("close_test")
-    print(close_test[:10])
-    print(type(close_test))
-    print(len(close_test))
+    prediction = np.concatenate((prediction, aux))
 
-    print("prediction")
-    print(prediction[:10])
-    print(type(prediction))
-    print(len(prediction))
+    # increassing the size of 'close_test' and 'prediciton' according to 'forecast'
+    aux = []
+    for i in range(forecast.size -1):
+        aux.append(None)
+    prediction = np.concatenate((prediction, aux))
+    close_test = np.concatenate((close_test, aux))
+
+    # increasing the size of 'forecast' and making it begging on the last elemente of close test
+    aux = []
+    for i in range(close_test.size - forecast.size -1):
+        aux.append(None)
+    forecast = np.concatenate(( aux, forecast))
+
+    concatenated_date = np.concatenate((date_test, forecast_dates))
+
+    print("concatenated_date")
+    print(concatenated_date[0])
+    print(type(concatenated_date))
+    print(len(concatenated_date))
 
     print("forecast")
-    print(forecast[:10])
+    print(forecast[0])
     print(type(forecast))
     print(len(forecast))
 
-    print("date_test")
-    print(date_test[:10])
-    print(type(date_test))
-    print(len(date_test))
+    # testes -----------------------------
 
-    print("forecast_dates")
-    print(forecast_dates[:10])
-    print(type(forecast_dates))
-    print(len(forecast_dates))
+    # print("close_test")
+    # print(close_test[:10])
+    # print(type(close_test))
+    # print(len(close_test))
+
+    # print("prediction")
+    # print(prediction[:10])
+    # print(type(prediction))
+    # print(len(prediction))
+
+    # print("forecast")
+    # print(forecast[:10])
+    # print(type(forecast))
+    # print(len(forecast))
+
+    # # print("date_test")
+    # # print(date_test[-10:])
+    # # print(type(date_test))
+    # # print(len(date_test))
+
+    # # print("forecast_dates")
+    # # print(forecast_dates)
+    # # print(type(forecast_dates))
+    # # print(len(forecast_dates))
+
+    # print("concatenated_date")
+    # print(concatenated_date[-40:])
+    # print(type(concatenated_date))
+    # print(len(concatenated_date))
 
     # ------------------------------------
 
@@ -117,9 +163,9 @@ class LoadedModel:
         "name": "PETR4",
         "values":{
             "real": json.dumps(close_test.tolist()),
-            "test": json.dumps(test.tolist()),
-            "prediction": json.dumps(prediction.tolist()),
-            "date": json.dumps(date_test.tolist()),
+            "tested": json.dumps(prediction.tolist()),
+            "forecast": json.dumps(forecast.tolist()),
+            "date": json.dumps(concatenated_date.tolist()),
             # "forecast_date": json.dumps(forecast_dates.tolist())
         }
     }
