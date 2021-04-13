@@ -8,7 +8,7 @@ test = {
         "values":{
             "real": [2, 3, 6, 8, None, None, None],
             "test": [3, 4, 5, 7, None, None, None],
-            "prediction": [None, None, None, None, 9, 10, 7],
+            "prediction": [None, None, None, 8, 9, 10, 7],
             "date": ["2021-04-05", "2021-04-06", "2021-04-07", "2021-04-08", "2021-04-09", "2021-04-10", "2021-04-11"]
         }
     }
