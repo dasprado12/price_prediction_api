@@ -83,34 +83,6 @@ class LoadedModel:
     close_data = close_data.reshape((-1))
 
 
-
-    # testes -----------------------------
-
-    print("close_test")
-    print(close_test[:10])
-    print(type(close_test))
-    print(len(close_test))
-
-    print("prediction")
-    print(prediction[:10])
-    print(type(prediction))
-    print(len(prediction))
-
-    print("forecast")
-    print(forecast[:10])
-    print(type(forecast))
-    print(len(forecast))
-
-    print("date_test")
-    print(date_test[:10])
-    print(type(date_test))
-    print(len(date_test))
-
-    print("forecast_dates")
-    print(forecast_dates[:10])
-    print(type(forecast_dates))
-    print(len(forecast_dates))
-
     # ------------------------------------
 
     return_object={
