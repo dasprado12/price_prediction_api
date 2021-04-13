@@ -1,6 +1,7 @@
 from tensorflow.keras.models import model_from_json
 from keras.preprocessing.sequence import TimeseriesGenerator
 import pandas as pd
+import json
 
 # gpus = tf.config.experimental.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -39,9 +40,24 @@ class LoadedModel:
     # valid_data_generator = TimeseriesGenerator(close_train, close_train, length=look_back, batch_size=1)
     test_generator = TimeseriesGenerator(close_test, close_test, length=look_back, batch_size=1)
 
-    prediction = model.predict(test_generator)
+    test = model.predict(test_generator)
 
     # close_train = close_train.reshape((-1))
     close_test = close_test.reshape((-1))
-    prediction = prediction.reshape((-1))
+    test = test.reshape((-1))
+    
+    print(type(close_test))
+    print(close_test)
+
+    
+
+    return_object={
+        "name": "PETR4",
+        "values":{
+            "real": json.dumps(close_test.tolist()),
+            "test": json.dumps(test.tolist()),
+            "prediction": [],
+            "date": []
+        }
+    }
 
