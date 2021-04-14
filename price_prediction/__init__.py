@@ -16,10 +16,17 @@ test = {
             "date": ["2021-04-05", "2021-04-06", "2021-04-07", "2021-04-08", "2021-04-09", "2021-04-10", "2021-04-11"]
         }
     }
+helloWorld = {
+    "mensage":"Hello world"
+}
 
 def create_app():
     app = Flask(__name__)
     
+    @app.route('/')
+    def HelloWorld():
+        return jsonify(helloWorld)
+
     @app.route('/test')
     def predictions():
         return jsonify(test)
