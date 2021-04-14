@@ -1,7 +1,11 @@
 from flask import Flask, jsonify
 from .trained_ai import LoadedModel
+from flask_cors import CORS
 
 real = LoadedModel.return_object
+
+app = Flask(__name__)
+CORS(app)
 
 test = {
         "name": "PETR4",
@@ -20,7 +24,7 @@ def create_app():
     def predictions():
         return jsonify(test)
 
-    @app.route('/')
+    @app.route('/PETR4')
     def home():
         return jsonify(real)
 
