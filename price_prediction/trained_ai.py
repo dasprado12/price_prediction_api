@@ -109,21 +109,11 @@ class LoadedModel:
 
     # increasing the size of 'forecast' and making it begging on the last elemente of close test
     aux = []
-    for i in range(close_test.size - forecast.size -1):
+    for i in range(close_test.size - forecast.size):
         aux.append(None)
     forecast = np.concatenate(( aux, forecast))
 
     concatenated_date = np.concatenate((date_test, forecast_dates))
-
-    print("concatenated_date")
-    print(concatenated_date[0])
-    print(type(concatenated_date))
-    print(len(concatenated_date))
-
-    print("forecast")
-    print(forecast[0])
-    print(type(forecast))
-    print(len(forecast))
 
     # testes -----------------------------
 
@@ -142,15 +132,15 @@ class LoadedModel:
     # print(type(forecast))
     # print(len(forecast))
 
-    # # print("date_test")
-    # # print(date_test[-10:])
-    # # print(type(date_test))
-    # # print(len(date_test))
+    # # # print("date_test")
+    # # # print(date_test[-10:])
+    # # # print(type(date_test))
+    # # # print(len(date_test))
 
-    # # print("forecast_dates")
-    # # print(forecast_dates)
-    # # print(type(forecast_dates))
-    # # print(len(forecast_dates))
+    # # # print("forecast_dates")
+    # # # print(forecast_dates)
+    # # # print(type(forecast_dates))
+    # # # print(len(forecast_dates))
 
     # print("concatenated_date")
     # print(concatenated_date[-40:])
@@ -162,10 +152,11 @@ class LoadedModel:
     return_object={
         "name": "PETR4",
         "values":{
-            "real": json.dumps(close_test.tolist()),
-            "tested": json.dumps(prediction.tolist()),
-            "forecast": json.dumps(forecast.tolist()),
-            "date": json.dumps(concatenated_date.tolist()),
+            "real": close_test.tolist(),
+            "tested": prediction.tolist(),
+            "forecast": forecast.tolist(),
+            # "date": json.dumps(concatenated_date.tolist()),
+            "date": concatenated_date.tolist(),
             # "forecast_date": json.dumps(forecast_dates.tolist())
         }
     }
