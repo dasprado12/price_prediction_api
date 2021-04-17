@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from .trained_ai import LoadedModel
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 real = LoadedModel.return_object
 
@@ -24,14 +24,17 @@ def create_app():
     app = Flask(__name__)
     
     @app.route('/')
+    @cross_origin(origin='*')
     def HelloWorld():
         return jsonify(helloWorld)
 
     @app.route('/test')
+    @cross_origin(origin='*')
     def predictions():
         return jsonify(test)
 
     @app.route('/PETR4')
+    @cross_origin(origin='*')
     def home():
         return jsonify(real)
 
