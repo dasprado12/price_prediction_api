@@ -4,11 +4,14 @@ import pandas as pd
 import numpy as np
 import json
 import datetime
+from .update import UpdateDataFrame
+
 
 # gpus = tf.config.experimental.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(gpus[0], True)
 
 class LoadedModel:
+
 
     # -----------------------------------------------Load_model-------------------------------------------------------
     data_name = "PETR4_SA_1"
@@ -24,7 +27,9 @@ class LoadedModel:
 
     # -----------------------------------------------Data-------------------------------------------------------------
 
-    df = pd.read_csv('./price_prediction/Data/{}.csv'.format(data_name))
+    # df = pd.read_csv('./price_prediction/Data/{}.csv'.format(data_name))
+    df = UpdateDataFrame.dataFrame
+
 
     close_data = df['Close'].values
     close_data = close_data[::-1]
