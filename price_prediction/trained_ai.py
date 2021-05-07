@@ -30,8 +30,6 @@ class LoadedModel:
         getDataFrame = UpdateDataFrame(data_name)
         df = getDataFrame.DateCheck()
 
-        print(df.head())
-
         close_data = df['Close'].values
         close_data = close_data[::-1]
         close_data = close_data[:1000]
