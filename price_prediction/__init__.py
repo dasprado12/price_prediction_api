@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from .trained_ai import LoadedModel
 from flask_cors import CORS, cross_origin
 
-real = LoadedModel.return_object
+testModel = LoadedModel()
 
 app = Flask(__name__)
 CORS(app)
@@ -36,7 +36,8 @@ def create_app():
     @app.route('/PETR4')
     @cross_origin(origin='*')
     def home():
-        return jsonify(real)
+        result = testModel.SetParameters("PETR4_SA_1")
+        return jsonify(result)
 
     return app
 
