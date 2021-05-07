@@ -36,7 +36,7 @@ class UpdateDataFrame:
         # Atualiza o datadrame
         # sobe para o mongo
         # Retorna o data Frame atualizado
-        print("Numero de dias: ", days)
+        # print("Numero de dias: ", days)
         return df
 
     
