@@ -32,7 +32,7 @@ class LoadedModel:
 
         df['Close'] = df['Close'].astype(float)
 
-        print(df[['Date', 'Close']].tail(10))
+        # print(df[['Date', 'Close']].tail(10))
 
         close_data = df['Close'].values
         close_data = close_data[::-1]

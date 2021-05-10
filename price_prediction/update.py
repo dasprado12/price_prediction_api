@@ -74,14 +74,31 @@ class UpdateDataFrame:
 
         # atualiza os dados do mongo
         mydf = df.tail(len(new_stock_prices))
-        print(mydf)
+        # print("mydf: ", mydf)
+        # print(mydf.columns)
 
+        mydf['Open'] = mydf['Open'].astype(str)
+        mydf['High'] = mydf['High'].astype(str)
+        mydf['Low'] = mydf['Low'].astype(str)
+        mydf['Close'] = mydf['Close'].astype(str)
+        mydf['Adj Close'] = mydf['Adj Close'].astype(str)
+        mydf['Volume'] = mydf['Volume'].astype(str)
 
-        x= collection.insert_many(mylist)
-        print(x)
-        # print(df[['Date', 'Close']].tail(10))
-        # print(df.tail(10))
+        mylist=[]
+        for i in range(len(mydf)):
+            myObject={
+                "Date": mydf['Date'].iloc[i],
+                "Open": mydf['Open'].iloc[i],
+                "High": mydf['High'].iloc[i],
+                "Low": mydf['Low'].iloc[i],
+                "Close": mydf['Close'].iloc[i],
+                "Adj Close": mydf['Adj Close'].iloc[i],
+                "Volume": mydf['Volume'].iloc[i]
+            }
+            mylist.append(myObject)
 
+        print("My list: ", mylist)
+        collection.insert_many(mylist)
 
         # js= json.loads(reset.to_json(orient='records', date_format='iso'))
 
