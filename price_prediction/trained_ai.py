@@ -30,6 +30,10 @@ class LoadedModel:
         getDataFrame = UpdateDataFrame(data_name)
         df = getDataFrame.DateCheck()
 
+        df['Close'] = df['Close'].astype(float)
+
+        print(df[['Date', 'Close']].tail(10))
+
         close_data = df['Close'].values
         close_data = close_data[::-1]
         close_data = close_data[:1000]
@@ -117,6 +121,8 @@ class LoadedModel:
             aux.append(None)
         forecast = np.concatenate(( aux, forecast))
 
+
+
         concatenated_date = np.concatenate((date_test, forecast_dates))
 
         # testes -----------------------------
@@ -136,15 +142,15 @@ class LoadedModel:
         # print(type(forecast))
         # print(len(forecast))
 
-        # # # print("date_test")
-        # # # print(date_test[-10:])
-        # # # print(type(date_test))
-        # # # print(len(date_test))
+        # print("date_test")
+        # print(date_test[-10:])
+        # print(type(date_test))
+        # print(len(date_test))
 
-        # # # print("forecast_dates")
-        # # # print(forecast_dates)
-        # # # print(type(forecast_dates))
-        # # # print(len(forecast_dates))
+        # print("forecast_dates")
+        # print(forecast_dates)
+        # print(type(forecast_dates))
+        # print(len(forecast_dates))
 
         # print("concatenated_date")
         # print(concatenated_date[-40:])

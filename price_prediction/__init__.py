@@ -42,13 +42,13 @@ def create_app():
     @app.route('/AMBEV')
     @cross_origin(origin='*')
     def ambev():
-        result = testModel.SetParameters("ABEV_SA")
+        result = testModel.SetParameters("AMBEV")
         return jsonify(result)
     
     @app.route('/CIELO')
     @cross_origin(origin='*')
     def cielo():
-        result = testModel.SetParameters("CIEL3_SA")
+        result = testModel.SetParameters("CIELO")
         return jsonify(result)
     
     @app.route('/ITAU')
