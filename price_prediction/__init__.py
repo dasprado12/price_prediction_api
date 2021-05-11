@@ -36,7 +36,7 @@ def create_app():
     @app.route('/PETR4')
     @cross_origin(origin='*')
     def petr4():
-        result = testModel.SetParameters("PETR4_SA_1")
+        result = testModel.SetParameters("PETR4")
         return jsonify(result)
     
     @app.route('/AMBEV')
@@ -54,7 +54,7 @@ def create_app():
     @app.route('/ITAU')
     @cross_origin(origin='*')
     def itau():
-        result = testModel.SetParameters("ITSA4_SA")
+        result = testModel.SetParameters("ITAU")
         return jsonify(result)
 
     return app
